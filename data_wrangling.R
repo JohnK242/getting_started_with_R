@@ -20,6 +20,7 @@ library(dplyr)
 # janitor package. This makes the column names lowercase, and replaced spaces with
 # underscores (_). Useful for referring to in dplyr functions.
 breed_traits <- clean_names(readRDS("breed_traits.rds"))
+breed_traits
 
 # selecting columns from the breed_traits object by name or by position
 select(breed_traits, breed)
@@ -65,3 +66,26 @@ smooth_dogs <- breed_traits |>
   mutate(smooth_coat = if_else(coat_type == "smooth", TRUE, FALSE)) |> 
   select(breed, coat_type, smooth_coat)
 
+#24 Nov 2022 session
+# group_by and summarise data
+#higher energy level dogs are very trainable
+breed_traits |> 
+  mutate(trainability_category = case_when(
+    trainability_level <=2 ~ "Not very trainable", 
+    trainability_level ==3 ~ "Somewhat trainable", 
+    trainability_level > 3 ~ "Very trainable", 
+  )) |>
+  group_by(trainability_category) |>
+  summarise(
+    avg_energy_lvl = mean(energy_level),
+    count = n()
+    )
+
+# count rows
+breed_traits |> 
+  mutate(trainability_category = case_when(
+    trainability_level <=2 ~ "Not very trainable", 
+    trainability_level ==3 ~ "Somewhat trainable", 
+    trainability_level > 3 ~ "Very trainable", 
+  )) |>
+  
