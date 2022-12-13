@@ -88,4 +88,4 @@ breed_traits |>
     trainability_level ==3 ~ "Somewhat trainable", 
     trainability_level > 3 ~ "Very trainable", 
   )) |>
-  
+  count(trainability_category)
